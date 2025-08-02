@@ -1,6 +1,6 @@
-# Visual Comparison of Foundational Generative AI Models
+# Visual Comparison of Foundational Gen AI Models
 
-This is a comprehensive visualization and comparison of foundational Deep Generative AI models. 
+This is a comprehensive visualization and comparison of Foundational Generative AI models. 
 
 The process of "comparison" is perhaps the root of all scientific curiosity. Hence, this project serves an educational and a research purpose to simplify our understanding of complex scientific concepts through an easy-to-use visual comparison.
 
