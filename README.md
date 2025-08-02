@@ -5,5 +5,6 @@ This is a comprehensive visualization and comparison of foundational Deep Genera
 You can access the page here: https://amiton7.github.io/generative-ai-flowchart/
 
 Fun Fact:
+
 For every AI model, author has provided analogy to a cooking scenario in real life, which correlates with what the AI is actually doing!
 
