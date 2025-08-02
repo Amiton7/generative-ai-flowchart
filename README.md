@@ -6,6 +6,11 @@ The process of "comparison" is perhaps the root of all scientific curiosity. Hen
 
 You can access the page here: https://amiton7.github.io/generative-ai-flowchart/
 
+### Note:
+
+* The Flowchart Gif for every model will be uploaded soon.
+* Mobile view is currently not supported, but will be working on it in some time.
+
 ### Fun Fact:
 
 At the end of AI model's info table, there is an analogy to a cooking scenario in real life!
