@@ -154,6 +154,7 @@ function EnlargedImageModal({ src, onClose }) {
         zIndex: 200010,
       }}
       onClick={onClose}
+      title="Click anywhere to close"
     >
       <img
         src={process.env.PUBLIC_URL + "/" + src}
@@ -166,29 +167,12 @@ function EnlargedImageModal({ src, onClose }) {
           border: "2px solid #e0e0e0",
           cursor: "zoom-out",
         }}
-        onClick={e => e.stopPropagation()} // Only click on background closes
-      />
-      <button
-        onClick={onClose}
-        style={{
-          position: "absolute",
-          top: 34, right: 54,
-          background: "#ef4444",
-          color: "#fff",
-          border: "none",
-          borderRadius: "50%",
-          width: 36, height: 36,
-          fontSize: 23, fontWeight: 700, cursor: "pointer", zIndex: 100001,
-          boxShadow: "0 2px 8px #0003", display: "flex",
-          alignItems: "center", justifyContent: "center", lineHeight: 1
-        }}
-        aria-label="Close enlarged flowchart"
+        onClick={onClose}  // Clicking the image also closes modal
         tabIndex={0}
-      >&times;</button>
+      />
     </div>
   );
 }
-
 
 // Info Popup (single)
 // Assuming ModelTable and EnlargedImageModal are in the same file or imported above
@@ -274,7 +258,7 @@ function InfoPopup({ model, onClose, setEnlargedFlowchart, enlargedFlowchart}) {
 
 // Comparison Modal
 // Comparison Modal
-function CompareModal({ nodes, onClose }) {
+function CompareModal({ nodes, onClose, setEnlargedFlowchart }) {
   // If no nodes, render nothing
   if (!nodes || !nodes.length) return null;
 
@@ -425,7 +409,26 @@ function CompareModal({ nodes, onClose }) {
                           pdf
                         </a>
                       ) : field.isImage && model[field.key] ? (
-                        <img src={process.env.PUBLIC_URL + "/" + model[field.key]} alt={field.label} style={{ maxWidth: 140, maxHeight: 70 }} />
+                        setEnlargedFlowchart ? (
+                          <span
+                            style={{ cursor: "zoom-in", display: "inline-block" }}
+                            onClick={() => setEnlargedFlowchart(model[field.key].replace(/\.gif$/, "_full.gif"))}
+                            tabIndex={0}
+                            title="Click to enlarge"
+                          >
+                            <img
+                              src={process.env.PUBLIC_URL + "/" + model[field.key]}
+                              alt={field.label}
+                              style={{ maxWidth: 140, maxHeight: 70, borderRadius: 5 }}
+                            />
+                          </span>
+                        ) : (
+                          <img
+                            src={process.env.PUBLIC_URL + "/" + model[field.key]}
+                            alt={field.label}
+                            style={{ maxWidth: 140, maxHeight: 70, borderRadius: 5 }}
+                          />
+                        )
                       ) : field.isLink && model[field.key] ? (
                         <a
                           href={model[field.href || field.key]}
@@ -1410,7 +1413,11 @@ useEffect(() => {
     </div>
     {/* Modals */}
     {showComparison && (
-      <CompareModal nodes={models.filter(m => selectedIds.has(m.id))} onClose={() => setShowComparison(false)} />
+      <CompareModal
+        nodes={models.filter(m => selectedIds.has(m.id))}
+        onClose={() => setShowComparison(false)}
+        setEnlargedFlowchart={setEnlargedFlowchart}    // <--- ADD THIS LINE
+      />
     )}
     {showInfo && <InfoHowToUseModal onClose={() => setShowInfo(false)} />}
     {openNode && !compareMode && (
