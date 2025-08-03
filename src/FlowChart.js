@@ -99,19 +99,19 @@ function ModelTable({ details, setEnlargedFlowchart }) {
                 setEnlargedFlowchart ? (
                   <span
                     style={{ cursor: "zoom-in", display: "inline-block" }}
-                    onClick={() => setEnlargedFlowchart(details[field.key])}
+                    onClick={() => setEnlargedFlowchart(details[field.key].replace(/\.gif$/, "_full.gif"))}
                     tabIndex={0}
                     title="Click to enlarge"
                   >
                     <img
-                      src={details[field.key]}
+                      src={process.env.PUBLIC_URL + details[field.key]}
                       alt={field.label}
                       style={{ maxWidth: 180, maxHeight: 90, borderRadius: 5 }}
                     />
                   </span>
                 ) : (
                   <img
-                    src={details[field.key]}
+                    src={process.env.PUBLIC_URL + details[field.key]}
                     alt={field.label}
                     style={{ maxWidth: 180, maxHeight: 90, borderRadius: 5 }}
                   />
@@ -156,7 +156,7 @@ function EnlargedImageModal({ src, onClose }) {
       onClick={onClose}
     >
       <img
-        src={src}
+        src={process.env.PUBLIC_URL + src}
         alt="Enlarged flowchart"
         style={{
           maxWidth: "92vw", maxHeight: "82vh",
@@ -421,7 +421,7 @@ function CompareModal({ nodes, onClose }) {
                           pdf
                         </a>
                       ) : field.isImage && model[field.key] ? (
-                        <img src={model[field.key]} alt={field.label} style={{ maxWidth: 140, maxHeight: 70 }} />
+                        <img src={process.env.PUBLIC_URL + model[field.key]} alt={field.label} style={{ maxWidth: 140, maxHeight: 70 }} />
                       ) : field.isLink && model[field.key] ? (
                         <a
                           href={model[field.href || field.key]}
