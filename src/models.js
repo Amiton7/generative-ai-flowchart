@@ -69,7 +69,7 @@ const models = [
   },
   {
     id: "DBN",
-    model: "DBN",
+    model: "Deep Belief Network",
     paperTitle: "A fast learning algorithm for deep belief nets",
     venue: "Neural Computation",
     year: 2006,
@@ -81,7 +81,7 @@ const models = [
     color: "#FFA500",
     primaryUseCase: "Image",
     bestPerformance: "MNIST Test Error: 1.25%",
-    flowchart: "v (input) \n  ↓\n[W₀: RBM]\n  ↓\nh₀ (first hidden)\n  ↓\n[W₁: RBM]\n  ↓\nh₁ (second hidden)\n  ↓\n[associative memory: undirected RBM]\n  ↓\nlabel / class",
+    flowchart: "flowcharts/gifs/DBN.gif",
     highLevelIntuition: "Each RBM layer learns features from the previous layer.\nThe top undirected layer connects features and labels to model data distribution.",
     pros: [
       "Fast, greedy layer-wise unsupervised learning",
@@ -114,7 +114,7 @@ const models = [
     color: "#FFA500",
     primaryUseCase: "Image",
     bestPerformance: "MNIST test error: 0.95%",
-    flowchart: "v → [W₁] → h₁ → [W₂] → h₂  \n↑                ↓  \n Gibbs/Mean-field",
+    flowchart: "flowcharts/gifs/DBM.gif",
     highLevelIntuition: "Input passes up through layers to extract features.\nEach layer refines its representation via feedback and sampling.",
     pros: [
       "Learns deep, hierarchical representations",
@@ -234,7 +234,7 @@ const models = [
   },
   {
     id: "NICE",
-    model: "NICE",
+    model: "Nonlinear Indep. Components Est.",
     paperTitle: "NICE: Non-linear Independent Components Estimation",
     venue: "ICLR",
     year: 2015,
@@ -267,7 +267,7 @@ const models = [
   },
   {
     id: "CGAN",
-    model: "ConditionalGAN",
+    model: "Conditional GAN",
     paperTitle: "Conditional Generative Adversarial Nets",
     venue: "arXiv",
     year: 2014,
@@ -279,7 +279,7 @@ const models = [
     color: "#32CD32",
     primaryUseCase: "Image",
     bestPerformance: "MNIST Parzen log-likelihood: 132 ± 1.8",
-    flowchart: "z, y → [Generator G] → x_fake\nx_fake, y → [Discriminator D] → D(x_fake|y)\nx_real, y → [Discriminator D] → D(x_real|y)",
+    flowchart: "flowcharts/gifs/CGAN.gif",
     highLevelIntuition: "Noise and label are combined to generate a conditional sample.\nDiscriminator checks if sample matches label and is real or fake.",
     pros: [
       "Enables class-conditional sample generation",
@@ -300,7 +300,7 @@ const models = [
   },
   {
     id: "MADE",
-    model: "MADE",
+    model: "Masked Autoencoder for Distribution Estimation",
     paperTitle: "MADE: Masked Autoencoder for Distribution Estimation",
     venue: "NeurIPS",
     year: 2015,
@@ -345,7 +345,7 @@ const models = [
     color: "#facc15",
     primaryUseCase: "Image",
     bestPerformance: "Binarized MNIST: 80.97 nats (test negative log-likelihood)",
-    flowchart: "x → [read] → r_t → [encoder RNN] → h_enc_t → [sample z_t] → [decoder RNN] → h_dec_t → [write] → c_t\nc_{t-1} + write(h_dec_t) = c_t\n...\nc_T → [reconstruct] → x̂",
+    flowchart: "flowcharts/gifs/DRAW.gif",
     highLevelIntuition: "At each step, the model reads a patch, encodes and samples latent info, then writes to the canvas.\nRepeats this process, gradually refining the image.",
     pros: [
       "Iterative, human-like image generation",
@@ -366,7 +366,7 @@ const models = [
   },
   {
     id: "FVSBN",
-    model: "FVSBN",
+    model: "Fully Visible Sigmoid Belief Network",
     paperTitle: "Learning Deep Sigmoid Belief Networks with Data Augmentation",
     venue: "AISTATS",
     year: 2015,
@@ -432,7 +432,7 @@ const models = [
   },
   {
     id: "VRNN",
-    model: "VRNN",
+    model: "Variational RNN",
     paperTitle: "A Recurrent Latent Variable Model for Sequential Data (VRNN)",
     venue: "NeurIPS",
     year: 2015,
@@ -465,7 +465,7 @@ const models = [
   },
   {
     id: "IWAE",
-    model: "IWAE",
+    model: "Importance Weighted Autoencoder",
     paperTitle: "Importance Weighted Autoencoders",
     venue: "ICLR",
     year: 2015,
@@ -498,7 +498,7 @@ const models = [
   },
   {
     id: "DCGAN",
-    model: "DCGAN",
+    model: "Deep Convolutional GAN",
     paperTitle: "Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks",
     venue: "arXiv",
     year: 2015,
@@ -510,7 +510,7 @@ const models = [
     color: "#22c55e",
     primaryUseCase: "Image",
     bestPerformance: "CIFAR‑10 accuracy (unsupervised, features + L2‑SVM): 82.8%",
-    flowchart: "z → [G] → x_fake → [D] → real/fake\nx_real → [D] → real/fake",
+    flowchart: "flowcharts/gifs/DCGAN.gif",
     highLevelIntuition: "Noise is transformed to an image by the generator.\nThe discriminator distinguishes real images from generated ones.",
     pros: [
       "Learns high‑quality, reusable image features",
@@ -630,7 +630,7 @@ const models = [
   },
   {
     id: "SSVAE",
-    model: "SSVAE",
+    model: "Semi Supervised VAE",
     paperTitle: "Variational Autoencoders for Semi-supervised Text Classification",
     venue: "AAAI",
     year: 2016,
@@ -696,7 +696,7 @@ const models = [
   },
   {
     id: "BiGAN",
-    model: "BiGAN",
+    model: "Bidirectional GAN",
     paperTitle: "Adversarial Feature Learning",
     venue: "ICLR",
     year: 2016,
@@ -708,7 +708,7 @@ const models = [
     color: "#22c55e",
     primaryUseCase: "Image",
     bestPerformance: "VOC 2007 Detection mAP: 52.5%",
-    flowchart: "z  →  [G]  →  x̃\nx  →  [E]  →  z̃\n(x̃, z) and (x, z̃) → [D] → real/fake",
+    flowchart: "flowcharts/gifs/BiGAN.gif",
     highLevelIntuition: "Sample z, generate x̃ with G; sample x, encode z̃ with E. Discriminator D tries to tell (x, z̃) from (x̃, z). G and E try to fool D by making these pairs indistinguishable.",
     pros: [
       "Learns bidirectional mapping (data ↔ latent)",
@@ -741,7 +741,7 @@ const models = [
     color: "#22c55e",
     primaryUseCase: "Image",
     bestPerformance: "MNIST Test Log-Likelihood (KDE): 429 nats (Pearson χ² divergence)",
-    flowchart: "z → [generator Gθ] → x_fake\nx_real, x_fake → [variational function Tω]\n   ↑          ↑\n [P data]   [Qθ]\n        → [optimize F(θ, ω)] → update θ, ω",
+    flowchart: "flowcharts/gifs/fGAN.gif",
     highLevelIntuition: "Generator produces samples from noise.\nVariational function tries to distinguish real vs. generated samples using chosen f-divergence.",
     pros: [
       "Trains generative neural samplers with any f-divergence",
@@ -795,7 +795,7 @@ const models = [
   },
   {
     id: "IAF",
-    model: "IAF",
+    model: "Inverse Autoregressive Flow",
     paperTitle: "Improving Variational Autoencoders with Inverse Autoregressive Flow",
     venue: "ICML",
     year: 2016,
@@ -828,7 +828,7 @@ const models = [
   },
   {
     id: "PixCNN",
-    model: "PixelCNN",
+    model: "Pixel CNN",
     paperTitle: "Pixel Recurrent Neural Networks",
     venue: "ICML",
     year: 2016,
@@ -894,7 +894,7 @@ const models = [
   },
   {
     id: "ACGAN",
-    model: "AC‑GAN",
+    model: "Auxiliary Classifier GAN",
     paperTitle: "Conditional Image Synthesis with Auxiliary Classifier GANs (AC-GAN)",
     venue: "NeurIPS",
     year: 2017,
@@ -960,7 +960,7 @@ const models = [
   },
   {
     id: "GMVAE",
-    model: "GMVAE",
+    model: "Gaussian Mixture VAE",
     paperTitle: "Deep Unsupervised Clustering with Gaussian Mixture Variational Autoencoders",
     venue: "arXiv",
     year: 2016,
@@ -993,7 +993,7 @@ const models = [
   },
   {
     id: "PixVAE",
-    model: "PixelVAE",
+    model: "Pixel VAE",
     paperTitle: "PixelVAE: A Latent Variable Model for Natural Images",
     venue: "ICLR",
     year: 2017,
@@ -1059,7 +1059,7 @@ const models = [
   },
   {
     id: "NADE",
-    model: "NADE",
+    model: "Neural Autoregressive Distribution Estimation",
     paperTitle: "Neural Autoregressive Distribution Estimation",
     venue: "JMLR",
     year: 2016,
@@ -1092,7 +1092,7 @@ const models = [
   },
   {
     id: "SRGAN",
-    model: "SRGAN",
+    model: "Super Resolution GAN",
     paperTitle: "Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network",
     venue: "CVPR",
     year: 2017,
@@ -1158,7 +1158,7 @@ const models = [
   },
   {
     id: "LSGAN",
-    model: "LSGAN",
+    model: "Least Squares GAN",
     paperTitle: "Least Squares Generative Adversarial Networks",
     venue: "ICCV",
     year: 2017,
@@ -1224,7 +1224,7 @@ const models = [
   },
   {
     id: "DiscoGAN",
-    model: "DiscoGAN",
+    model: "Discover GAN",
     paperTitle: "Learning to Discover Cross-Domain Relations with Generative Adversarial Networks",
     venue: "ICML",
     year: 2017,
@@ -1257,7 +1257,7 @@ const models = [
   },
   {
     id: "CycGAN",
-    model: "CycleGAN",
+    model: "Cycle GAN",
     paperTitle: "Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks",
     venue: "ICCV",
     year: 2017,
@@ -1269,7 +1269,7 @@ const models = [
     color: "#22c55e",
     primaryUseCase: "Image",
     bestPerformance: "AMT “real vs fake” (Map→Photo): 26.8% ± 2.8% fool rate (256×256)",
-    flowchart: "x → [G] → ŷ → [F] → x̂\ny → [F] → x̃ → [G] → ỹ\n",
+    flowchart: "flowcharts/gifs/CycGAN.gif",
     highLevelIntuition: "Translate an image to the target domain.\nThen translate it back—if cycle-consistency holds, it matches the original.",
     pros: [
       "Works without paired training data",
@@ -1290,7 +1290,7 @@ const models = [
   },
   {
     id: "WGAN-GP",
-    model: "WGAN‑GP",
+    model: "WGAN‑Gradient Penalty",
     paperTitle: "Improved Training of Wasserstein GANs",
     venue: "NeurIPS",
     year: 2017,
@@ -1323,7 +1323,7 @@ const models = [
   },
   {
     id: "MAF",
-    model: "MAF",
+    model: "Masked Autoregressive Flow",
     paperTitle: "Masked Autoregressive Flow for Density Estimation",
     venue: "NeurIPS",
     year: 2017,
@@ -1356,7 +1356,7 @@ const models = [
   },
   {
     id: "VEEGAN",
-    model: "VEEGAN",
+    model: "Variational Encoder Enhancement GAN",
     paperTitle: "VEEGAN: Reducing Mode Collapse in GANs using Implicit Variational Learning",
     venue: "NeurIPS",
     year: 2017,
@@ -1389,7 +1389,7 @@ const models = [
   },
   {
     id: "DrNet",
-    model: "DrNet",
+    model: "Disentangled Representation Network",
     paperTitle: "Unsupervised Learning of Disentangled Representations from Video (DRNET)",
     venue: "NeurIPS",
     year: 2017,
@@ -1401,7 +1401,7 @@ const models = [
     color: "#facc15",
     primaryUseCase: "Video",
     bestPerformance: "KTH video generation: Inception Score decays less than MCNet for 100+ future steps",
-    flowchart: "x_t → [E_c] → h_c ──┐\n                     │\nx_{t+k} → [E_p] → h_{p_{t+k}} ──┘\n          ↓\n[h_c, h_{p_{t+k}}] → [D] → x̃_{t+k}\n",
+    flowchart: "flowcharts/gifs/DrNet.gif",
     highLevelIntuition: "Frame is split into content (what) and pose (how it moves).\nContent stays fixed; pose changes over time and is predicted forward.\nDecoder combines both to reconstruct or generate the next frame.",
     pros: [
       "Clean disentanglement of content and pose",
@@ -1455,7 +1455,7 @@ const models = [
   },
   {
     id: "MCNet",
-    model: "MCNet",
+    model: "Motion Control Network",
     paperTitle: "Decomposing Motion and Content for Natural Video Sequence Prediction",
     venue: "CVPR",
     year: 2017,
@@ -1488,7 +1488,7 @@ const models = [
   },
   {
     id: "MoCoGAN",
-    model: "MoCoGAN",
+    model: "Motion Control GAN",
     paperTitle: "MoCoGAN: Decomposing Motion and Content for Video Generation",
     venue: "CVPR",
     year: 2018,
@@ -1521,7 +1521,7 @@ const models = [
   },
   {
     id: "DualGAN",
-    model: "DualGAN",
+    model: "Dual GAN",
     paperTitle: "DualGAN: Unsupervised Dual Learning for Image-to-Image Translation",
     venue: "ICCV",
     year: 2017,
@@ -1533,7 +1533,7 @@ const models = [
     color: "#22c55e",
     primaryUseCase: "Image",
     bestPerformance: "Outperforms cGAN on AMT “realness” for sketch→photo (1.87 vs. 1.69) and day→night (2.42 vs. 1.89)",
-    flowchart: "u ∈ U → [G_A] → v̂ ∈ V → [G_B] → ũ ∈ U\nv ∈ V → [G_B] → û ∈ U → [G_A] → ṽ ∈ V\n",
+    flowchart: "flowcharts/gifs/DualGAN.gif",
     highLevelIntuition: "Each input is translated to the opposite domain.\nThe translation is then mapped back to reconstruct the original input.",
     pros: [
       "Unsupervised: requires no paired training data",
@@ -1554,7 +1554,7 @@ const models = [
   },
   {
     id: "ProgGAN",
-    model: "ProgressiveGAN",
+    model: "Progressive GAN",
     paperTitle: "Progressive Growing of GANs for Improved Quality, Stability, and Variation",
     venue: "ICLR",
     year: 2018,
@@ -1620,7 +1620,7 @@ const models = [
   },
   {
     id: "StarGAN",
-    model: "StarGAN",
+    model: "Star GAN",
     paperTitle: "StarGAN: Unified Generative Adversarial Networks for Multi-Domain Image-to-Image Translation",
     venue: "CVPR",
     year: 2018,
@@ -1686,7 +1686,7 @@ const models = [
   },
   {
     id: "BiCycGAN",
-    model: "BiCycleGAN",
+    model: "Bidirectional Cycle GAN",
     paperTitle: "Toward Multimodal Image-to-Image Translation",
     venue: "NeurIPS",
     year: 2018,
@@ -1698,7 +1698,7 @@ const models = [
     color: "#22c55e",
     primaryUseCase: "Image",
     bestPerformance: "Realism (AMT Fooling Rate, Google maps→satellites): 34.33%",
-    flowchart: "A, z → [G] → B̂ → [E] → ẑ\n↑______________________|\n        (cycle)\n",
+    flowchart: "flowcharts/gifs/BiCycGAN.gif",
     highLevelIntuition: "Sample z, combine with A, generate output.\nEncode output back to latent; enforce cycle consistency for diversity and realism.",
     pros: [
       "High output realism and diversity",
@@ -1719,7 +1719,7 @@ const models = [
   },
   {
     id: "ComboGAN",
-    model: "ComboGAN",
+    model: "Combo GAN",
     paperTitle: "ComboGAN: Unrestrained Scalability for Image Domain Translation",
     venue: "ECCV",
     year: 2018,
@@ -1731,7 +1731,7 @@ const models = [
     color: "#22c55e",
     primaryUseCase: "Image",
     bestPerformance: "14 painters: 14 domains in 220 hours (vs 4 months for CycleGAN)",
-    flowchart: "x (from Domain X)\n→ [Encoder_X]\n→ [shared representation]\n→ [Decoder_Y]\n→ y (in Domain Y)\n",
+    flowchart: "flowcharts/gifs/ComboGAN.gif",
     highLevelIntuition: "Encode input to a shared space. Decode to any target domain using the corresponding decoder.\n",
     pros: [
       "Linear scaling with number of domains",
@@ -1752,7 +1752,7 @@ const models = [
   },
   {
     id: "PixSNAIL",
-    model: "PixelSNAIL",
+    model: "Pixel SNAIL",
     paperTitle: "PixelSNAIL: An Improved Autoregressive Generative Model",
     venue: "ICML",
     year: 2018,
@@ -1797,7 +1797,7 @@ const models = [
     color: "#ff6b00",
     primaryUseCase: "Text",
     bestPerformance: "English dataset, 1 LSTM layer (512 units): Test perplexity ≈ 23",
-    flowchart: "x₁ → h₁ → x₂ → h₂ → x₃ → ... → hₙ → xₙ₊₁",
+    flowchart: "flowcharts/gifs/CharRNN.gif",
     highLevelIntuition: "Feed each token to update memory.\nPredict the next token from current memory.",
     pros: [
       "Flexible sequence modeling for any discrete token stream",
@@ -1818,7 +1818,7 @@ const models = [
   },
   {
     id: "SNGAN",
-    model: "SN‑GAN",
+    model: "Spectral Normalization GAN",
     paperTitle: "Spectral Normalization for Generative Adversarial Networks",
     venue: "ICLR",
     year: 2018,
@@ -1851,7 +1851,7 @@ const models = [
   },
   {
     id: "AugCycGAN",
-    model: "Augmented CycleGAN",
+    model: "Augmented Cycle GAN",
     paperTitle: "Augmented CycleGAN: Learning Many-to-Many Mappings from Unpaired Data",
     venue: "ICML",
     year: 2018,
@@ -1863,7 +1863,7 @@ const models = [
     color: "#22c55e",
     primaryUseCase: "Image",
     bestPerformance: "Edges-to-Photos (Shoes): Avg. L1 = 0.0698",
-    flowchart: "a, z_b → G_AB → b, z̃_a → G_BA → a'\n",
+    flowchart: "flowcharts/gifs/AugCyc-GAN.gif",
     highLevelIntuition: "Combine input with random noise to map to the target domain.\nEncode extra information lost in mapping.\nMap back using encoded info to reconstruct the input.",
     pros: [
       "Learns many-to-many mappings from unpaired data",
@@ -1884,7 +1884,7 @@ const models = [
   },
   {
     id: "MUNIT",
-    model: "MUNIT",
+    model: "Multimodal UNIT",
     paperTitle: "Multimodal Unsupervised Image-to-Image Translation (MUNIT)",
     venue: "ECCV",
     year: 2018,
@@ -1917,7 +1917,7 @@ const models = [
   },
   {
     id: "PixDefend",
-    model: "PixelDefend",
+    model: "Pixel Defend",
     paperTitle: "PixelDefend: Leveraging Generative Models to Understand and Defend against Adversarial Examples",
     venue: "ICLR",
     year: 2018,
@@ -1950,7 +1950,7 @@ const models = [
   },
   {
     id: "SAGAN",
-    model: "Self-Attention Generative Adversarial Networks",
+    model: "Self-Attention GAN",
     paperTitle: "Self-Attention Generative Adversarial Networks",
     venue: "ICML",
     year: 2019,
@@ -1983,7 +1983,7 @@ const models = [
   },
   {
     id: "GPT",
-    model: "GPT",
+    model: "Generative Pre-Training",
     paperTitle: "Improving Language Understanding by Generative Pre-Training",
     venue: "OpenAI",
     year: 2018,
@@ -2016,7 +2016,7 @@ const models = [
   },
   {
     id: "PixIQN",
-    model: "PixelIQN",
+    model: "Pixel IQN",
     paperTitle: "Autoregressive Quantile Networks for Generative Modeling",
     venue: "ICML",
     year: 2018,
@@ -2094,7 +2094,7 @@ const models = [
     color: "#0ea5e9",
     primaryUseCase: "Image",
     bestPerformance: "MNIST Test Error: 0.42% (ODE-Net, Table 1)",
-    flowchart: "z₀ → [continuous dynamics f] → z(t) → [ODE solver + trace] → log p(z(t))",
+    flowchart: "flowcharts/gifs/CNF.gif",
     highLevelIntuition: "Transform latent variables using neural ODEs to map noise to data.\nCompute probability by tracking density change along the trajectory.",
     pros: [
       "Constant memory cost as a function of depth",
@@ -2148,7 +2148,7 @@ const models = [
   },
   {
     id: "BigGAN",
-    model: "BigGAN",
+    model: "Big GAN",
     paperTitle: "Large Scale GAN Training for High Fidelity Natural Image Synthesis (BigGAN)",
     venue: "ICLR",
     year: 2019,
@@ -2160,7 +2160,7 @@ const models = [
     color: "#22c55e",
     primaryUseCase: "Image",
     bestPerformance: "ImageNet 128×128: Inception Score (IS) 166.5",
-    flowchart: "z, y → [Generator G] → x_fake\nx_real, x_fake, y → [Discriminator D] → real/fake\n",
+    flowchart: "flowcharts/gifs/BigGAN.gif",
     highLevelIntuition: "Noise and class label are fed to the generator to synthesize images.\nDiscriminator learns to tell real from generated images, guiding the generator.",
     pros: [
       "State-of-the-art image fidelity and diversity on large-scale datasets",
@@ -2226,7 +2226,7 @@ const models = [
     color: "#ff6b00",
     primaryUseCase: "Image",
     bestPerformance: "BLEU (Greedy): 31.2 on IWSLT 2016 De→En",
-    flowchart: "x → [encode] → μ(x), Σ²(x)\nx, y → [co-attn encode] → μ'(x,y), Σ'²(x,y)\nx, y → [q(z|x,y)] → z → [decode with x, z] → y\n",
+    flowchart: "flowcharts/gifs/CVAE.gif",
     highLevelIntuition: "Encode x for global context.\nInfer z from both x and y using co-attention.\nDecode y using both x and z for richer translations.",
     pros: [
       "Captures semantic and stylistic translation variations",
@@ -2247,7 +2247,7 @@ const models = [
   },
   {
     id: "MADGAN",
-    model: "MAD-GAN",
+    model: "Multivariate Anomaly Detection GAN",
     paperTitle: "MAD-GAN: Multivariate Anomaly Detection for Time Series Data with Generative Adversarial Networks",
     venue: "ICDM",
     year: 2019,
@@ -2346,7 +2346,7 @@ const models = [
   },
   {
     id: "δVAE",
-    model: "Delta-VAE",
+    model: "δ-VAE",
     paperTitle: "Preventing Posterior Collapse with delta-VAEs",
     venue: "ICLR",
     year: 2019,
@@ -2358,7 +2358,7 @@ const models = [
     color: "#eab308",
     primaryUseCase: "Image",
     bestPerformance: "CIFAR-10 NLL: ≤ 2.83 bits/dim",
-    flowchart: "x → [encoder] → z\n       ↓             ↑\n   [min KL δ]   [prior: AR(1)]\n       ↓             ↑\n   [decoder] ←  z → x̂\n",
+    flowchart: "flowcharts/gifs/DeltaVAE.gif",
     highLevelIntuition: "Encode input to a latent z while ensuring the encoding differs from the prior by at least δ.\nDecode z to reconstruct input, using a strong autoregressive prior to model sequential structure.",
     pros: [
       "Prevents posterior collapse without altering ELBO",
@@ -2379,7 +2379,7 @@ const models = [
   },
   {
     id: "StyleGAN",
-    model: "StyleGAN",
+    model: "Style GAN",
     paperTitle: "A Style-Based Generator Architecture for Generative Adversarial Networks",
     venue: "CVPR",
     year: 2019,
@@ -2412,7 +2412,7 @@ const models = [
   },
   {
     id: "SinGAN",
-    model: "SinGAN",
+    model: "Single GAN",
     paperTitle: "SinGAN: Learning a Generative Model from a Single Natural Image",
     venue: "ICCV",
     year: 2019,
@@ -2478,7 +2478,7 @@ const models = [
   },
   {
     id: "MelGAN",
-    model: "MelGAN",
+    model: "Mel-spectrogram GAN",
     paperTitle: "MelGAN: Generative Adversarial Networks for Conditional Waveform Synthesis",
     venue: "NeurIPS",
     year: 2019,
@@ -2511,7 +2511,7 @@ const models = [
   },
   {
     id: "MintNet",
-    model: "MintNet",
+    model: "Mint Net",
     paperTitle: "MintNet: Building Invertible Neural Networks with Masked Convolutions",
     venue: "NeurIPS",
     year: 2019,
@@ -2556,7 +2556,7 @@ const models = [
     color: "#ff6b00",
     primaryUseCase: "Text",
     bestPerformance: "XSum ROUGE-1: 45.14",
-    flowchart: "x₀ → [NoisingFunction] → x_{corrupt} → [Encoder] → h → [Decoder] → x̂₀\n",
+    flowchart: "flowcharts/gifs/BART.gif",
     highLevelIntuition: "Corrupt the original text with noise. Encode the noisy text, then autoregressively decode to reconstruct the original.",
     pros: [
       "Strong performance on both text generation and comprehension tasks",
@@ -2610,7 +2610,7 @@ const models = [
   },
   {
     id: "BigBiGAN",
-    model: "BigBiGAN",
+    model: "Big Bidirectional GAN",
     paperTitle: "Large Scale Adversarial Representation Learning",
     venue: "NeurIPS",
     year: 2019,
@@ -2622,7 +2622,7 @@ const models = [
     color: "#22c55e",
     primaryUseCase: "Image",
     bestPerformance: "ImageNet Top‑1 (unsupervised): 61.3%",
-    flowchart: "z ~ Pz      x ~ Px\n   |           |\n   v           v\nG(z)         E(x)\n   |           |\n   v           v\nx̂           ẑ\n   |           |\n   +-----+-----+\n         v\n   D((x̂, z), (x, ẑ))\n         |\n     Compute Loss\n",
+    flowchart: "flowcharts/gifs/BigBiGAN.gif",
     highLevelIntuition: "Sample z, generate image x̂; sample x, encode to ẑ.\nDiscriminator distinguishes (real x, encoded ẑ) vs (generated x̂, real z).\nEncoder and generator are trained to fool discriminator; their features capture data semantics.",
     pros: [
       "State-of-the-art unsupervised representation learning on ImageNet",
@@ -2643,7 +2643,7 @@ const models = [
   },
   {
     id: "NCSN",
-    model: "Generative Modeling by Estimating Gradients of the Data Distribution",
+    model: "Noise Conditional Score Network",
     paperTitle: "Generative Modeling by Estimating Gradients of the Data Distribution",
     venue: "NeurIPS",
     year: 2019,
@@ -2742,7 +2742,7 @@ const models = [
   },
   {
     id: "T5",
-    model: "T5",
+    model: "Text-to-Text Transfer Transformer",
     paperTitle: "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer",
     venue: "JMLR",
     year: 2020,
@@ -2886,7 +2886,7 @@ const models = [
     color: "#f43f5e",
     primaryUseCase: "Image",
     bestPerformance: "CIFAR10 FID: 3.17",
-    flowchart: "x₀ → [add noise] → x_t → [predict εθ] → x_{t-1}\n",
+    flowchart: "flowcharts/gifs/DDPM.gif",
     highLevelIntuition: "Noise is gradually added to the image in many small steps.\nThe model then learns to reverse this process by denoising step-by-step.",
     pros: [
       "State-of-the-art sample quality for unconditional image generation",
@@ -2940,7 +2940,7 @@ const models = [
   },
   {
     id: "StyleGAN2",
-    model: "StyleGAN2",
+    model: "Style GAN 2",
     paperTitle: "Analyzing and Improving the Image Quality of StyleGAN",
     venue: "CVPR",
     year: 2020,
@@ -2985,7 +2985,7 @@ const models = [
     color: "#f43f5e",
     primaryUseCase: "Image",
     bestPerformance: "MS-COCO: Human eval, realism preference 90% (zero-shot)",
-    flowchart: "Text y → [BPE tokenize] → text tokens\nImage x → [dVAE encode] → image tokens\n[text tokens, image tokens] → [Transformer autoregressive modeling] → image tokens → [dVAE decode] → Generated Image x̂\n",
+    flowchart: "flowcharts/gifs/DALL-E.gif",
     highLevelIntuition: "Text and image are both tokenized.\nTokens are concatenated and modeled autoregressively by a transformer.\nImage tokens are decoded back into pixels via dVAE.",
     pros: [
       "Zero-shot text-to-image generation",
@@ -3018,7 +3018,7 @@ const models = [
     color: "#f43f5e",
     primaryUseCase: "Image",
     bestPerformance: "CIFAR-10 FID: 4.16 (100 steps, η=0.0)",
-    flowchart: "x_T → [predict ε_T] → x_{T-1} → ... → x_1 → [predict ε_1] → x_0\n",
+    flowchart: "flowcharts/gifs/DDIM.gif",
     highLevelIntuition: "Start from pure noise. At each step, predict and remove noise to denoise the sample. Repeat until you obtain a clean image.",
     pros: [
       "10×–50× faster sampling than DDPM",
@@ -3038,8 +3038,8 @@ const models = [
     embedding: []
   },
   {
-    id: "ImDDPM",
-    model: "Improved Techniques for Training Score-Based Generative Models",
+    id: "ImprovedDDPM",
+    model: "Improved DDPM",
     paperTitle: "Improved Techniques for Training Score-Based Generative Models",
     venue: "NeurIPS",
     year: 2022,
@@ -3072,7 +3072,7 @@ const models = [
   },
   {
     id: "VQGAN",
-    model: "VQGAN",
+    model: "VQ GAN",
     paperTitle: "Taming Transformers for High-Resolution Image Synthesis (VQGAN)",
     venue: "CVPR",
     year: 2021,
@@ -3104,8 +3104,8 @@ const models = [
     embedding: []
   },
   {
-    id: "GuidedDiff",
-    model: "Diffusion Models Beat GANs on Image Synthesis",
+    id: "GuidedDiffusion",
+    model: "Guided Diffusion",
     paperTitle: "Diffusion Models Beat GANs on Image Synthesis",
     venue: "NeurIPS",
     year: 2021,
@@ -3171,7 +3171,7 @@ const models = [
   },
   {
     id: "VAEBM",
-    model: "VAEBM",
+    model: "VAE-EBM",
     paperTitle: "VAEBM: A Symbiosis between Variational Autoencoders and Energy-based Models",
     venue: "ICLR",
     year: 2021,
@@ -3204,7 +3204,7 @@ const models = [
   },
   {
     id: "ProgDistil",
-    model: "Progressive Distillation for Fast Sampling of Diffusion Models",
+    model: "Progressive Distillation",
     paperTitle: "Progressive Distillation for Fast Sampling of Diffusion Models",
     venue: "ICLR",
     year: 2022,
@@ -3237,7 +3237,7 @@ const models = [
   },
   {
     id: "PaLM",
-    model: "PaLM",
+    model: "Pathways Language Model",
     paperTitle: "PaLM: Scaling Language Modeling with Pathways",
     venue: "JMLR",
     year: 2022,
@@ -3336,7 +3336,7 @@ const models = [
   },
   {
     id: "LLaMA",
-    model: "LLaMA",
+    model: "LLM Meta AI",
     paperTitle: "LLaMA: Open and Efficient Foundation Language Models",
     venue: "arXiv",
     year: 2023,
@@ -3369,7 +3369,7 @@ const models = [
   },
   {
     id: "SEDD",
-    model: "SEDD",
+    model: "Score Entropy Discrete Diffusion",
     paperTitle: "Discrete Diffusion Modeling by Estimating the Ratios of the Data Distribution",
     venue: "ICML",
     year: 2023,

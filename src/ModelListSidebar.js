@@ -31,6 +31,7 @@ export default function ModelListSidebar({
     setSearch(e.target.value);
     const filtered = models.filter(m =>
       (m.model || "").toLowerCase().includes(e.target.value.toLowerCase())
+      || (m.id || "").toLowerCase().includes(e.target.value.toLowerCase())
     );
     setSearchResults(filtered);
     setSelectedResultIdx(filtered.length ? 0 : -1);
@@ -64,8 +65,12 @@ export default function ModelListSidebar({
 
   // Standard table fallback if not searching
   const filtered = models
-    .filter(m => (m.model || "").toLowerCase().includes(search.toLowerCase()))
-    .sort((a, b) => a.model.localeCompare(b.model));
+    .filter(m =>
+      (m.model || "").toLowerCase().includes(search.toLowerCase()) ||
+      (m.id || "").toLowerCase().includes(search.toLowerCase())
+    )
+    .sort((a, b) => (a.id || "").localeCompare(b.id || ""));
+
 
   const handleRowClick = (m) => {
     if (compareMode) {
@@ -207,8 +212,13 @@ export default function ModelListSidebar({
                     onScrollToModel?.(m.id);
                   }}
                 >
-                  {(m.model || "").slice(0, 32)}
+                  <span style={{ fontWeight: 600 }}>{m.id}</span>
+                  {/* Optionally, show model name faintly */}
+                  <span style={{ color: "#64748b", fontWeight: 400, marginLeft: 7 }}>
+                    {m.model !== m.id ? m.model : ""}
+                  </span>
                 </li>
+
               ))
             )}
           </ul>

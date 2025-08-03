@@ -858,6 +858,13 @@ export default function FlowChart() {
           }
         }
       }
+      if (
+        (e.key === "b" || e.key === "B") &&
+        compareMode &&
+        selectedIds.size >= 2
+      ) {
+        setShowComparison(v => !v); // toggle open/close
+      }
       if (e.key === "h" || e.key === "H") {
         setMinimized(m => !m);
       }
@@ -869,7 +876,7 @@ export default function FlowChart() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [compareMode, selectedIds]);
 
 
 useEffect(() => {
@@ -1347,7 +1354,7 @@ useEffect(() => {
           
       </div>
       {/* PLACE THE LEGEND COMPONENT HERE: */}
-      <ModelTypeLegend />
+      {!showComparison && <ModelTypeLegend />}
       {/* --- Toggle Button, absolutely positioned --- */}
       <button
         style={{
