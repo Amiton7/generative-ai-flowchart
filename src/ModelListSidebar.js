@@ -143,6 +143,7 @@ export default function ModelListSidebar({
         position: "relative"
       }}>
         <input
+          id="search-bar"   // <<=== ADD THIS LINE!
           value={search}
           onChange={handleSearchChange}
           onKeyDown={handleSearchKeyDown}
@@ -235,11 +236,16 @@ export default function ModelListSidebar({
           <thead>
             <tr>
               <th style={{
-                width: 32,
+                position: "sticky",   // <-- Add this
+                top: 0,               // <-- And this
                 background: "#f3f4f6",
+                zIndex: 5,            // <-- Make sure it's above body rows
+                width: 32,
                 border: "1px solid #e5e7eb"
               }}></th>
               <th style={{
+                position: "sticky",
+                top: 0,
                 background: "#f3f4f6",
                 color: "#23272e",
                 fontWeight: 700,
@@ -247,9 +253,12 @@ export default function ModelListSidebar({
                 border: "1px solid #e5e7eb",
                 padding: "8px 5px",
                 textAlign: "left",
-                width: 82
+                width: 82,
+                zIndex: 5
               }}>Model</th>
               <th style={{
+                position: "sticky",
+                top: 0,
                 background: "#f3f4f6",
                 color: "#23272e",
                 fontWeight: 700,
@@ -257,7 +266,8 @@ export default function ModelListSidebar({
                 border: "1px solid #e5e7eb",
                 padding: "8px 5px",
                 textAlign: "left",
-                width: 50
+                width: 50,
+                zIndex: 5
               }}>Pb. Date</th>
             </tr>
           </thead>

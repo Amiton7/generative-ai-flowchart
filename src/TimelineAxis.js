@@ -40,7 +40,7 @@ export default function TimelineAxis({
           x2={whiteboardWidth}
           y2={height}
           stroke="#64748b"
-          strokeWidth="2"
+          strokeWidth="3"
         />
         {/* Year and month ticks */}
         {years.map((year) => {
@@ -49,15 +49,15 @@ export default function TimelineAxis({
           return (
             <g key={year}>
               {/* Year tick upwards */}
-              <line x1={x} y1={height} x2={x} y2={height - 18} stroke="#64748b" strokeWidth="2" />
+              <line x1={x} y1={height} x2={x} y2={height - 20} stroke="#64748b" strokeWidth="2" />
               <text
                 x={x}
                 y={height - 22}
                 textAnchor="middle"
-                fontSize="11"
+                fontSize="14"
                 fontFamily="Inter"
                 fill="#64748b"
-                style={{ userSelect: "none", fontWeight: 500 }}
+                style={{ userSelect: "none", fontWeight: 700 }}
               >
                 {shortYear ? `'${String(year).slice(2)}` : year}
               </text>
@@ -72,21 +72,21 @@ export default function TimelineAxis({
                       x1={monthX}
                       y1={height}
                       x2={monthX}
-                      y2={height - 10}
+                      y2={height - 11}
                       stroke="#64748b"
-                      strokeWidth="1"
+                      strokeWidth="1.5"
                     />
                     <text
                       x={monthX}
                       y={height - 12}
                       textAnchor="middle"
-                      fontSize="9"
+                      fontSize="12.5"
                       fontFamily="Inter"
                       fill="#64748b"
                       style={{
                         userSelect: "none",
-                        fontWeight: 400,
-                        opacity: 0.8
+                        fontWeight: 450,
+                        opacity: 0.9
                       }}
                     >
                       {m}

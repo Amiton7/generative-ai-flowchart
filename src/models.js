@@ -906,7 +906,7 @@ const models = [
     color: "#22c55e",
     primaryUseCase: "Image",
     bestPerformance: "CIFAR-10 Inception Score: 8.25 ± 0.07",
-    flowchart: "/flowcharts/gifs/AC-GAN.gif",
+    flowchart: "flowcharts/gifs/AC-GAN.gif",
     highLevelIntuition: "Sample z and class c, generator produces a fake image.\nDiscriminator checks if image is real/fake and predicts class.",
     pros: [
       "Generates globally coherent, high-res (128×128) images",

@@ -104,14 +104,14 @@ function ModelTable({ details, setEnlargedFlowchart }) {
                     title="Click to enlarge"
                   >
                     <img
-                      src={process.env.PUBLIC_URL + details[field.key]}
+                      src={process.env.PUBLIC_URL + "/" + details[field.key]}
                       alt={field.label}
                       style={{ maxWidth: 180, maxHeight: 90, borderRadius: 5 }}
                     />
                   </span>
                 ) : (
                   <img
-                    src={process.env.PUBLIC_URL + details[field.key]}
+                    src={process.env.PUBLIC_URL + "/" + details[field.key]}
                     alt={field.label}
                     style={{ maxWidth: 180, maxHeight: 90, borderRadius: 5 }}
                   />
@@ -156,7 +156,7 @@ function EnlargedImageModal({ src, onClose }) {
       onClick={onClose}
     >
       <img
-        src={process.env.PUBLIC_URL + src}
+        src={process.env.PUBLIC_URL + "/" + src}
         alt="Enlarged flowchart"
         style={{
           maxWidth: "92vw", maxHeight: "82vh",
@@ -193,18 +193,23 @@ function EnlargedImageModal({ src, onClose }) {
 // Info Popup (single)
 // Assuming ModelTable and EnlargedImageModal are in the same file or imported above
 
-function InfoPopup({ model, onClose }) {
-  const [enlargedFlowchart, setEnlargedFlowchart] = useState(null);
-
-  // Close enlarged image with Escape key
-  React.useEffect(() => {
-    if (!enlargedFlowchart) return;
-    function handleEsc(e) {
-      if (e.key === "Escape") setEnlargedFlowchart(null);
+function InfoPopup({ model, onClose, setEnlargedFlowchart, enlargedFlowchart}) {
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === "e" || e.key === "E") {
+        if (model.flowchart && setEnlargedFlowchart) {
+          setEnlargedFlowchart(enlargedFlowchart
+            ? null
+            : model.flowchart.replace(/\.gif$/, "_full.gif"));
+        }
+      }
+      if (e.key === "Escape") {
+        onClose();
+      }
     }
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, [enlargedFlowchart]);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [model, setEnlargedFlowchart, enlargedFlowchart, onClose]);
 
   return (
     <>
@@ -262,7 +267,6 @@ function InfoPopup({ model, onClose }) {
           <ModelTable details={model} setEnlargedFlowchart={setEnlargedFlowchart} />
         </div>
       </div>
-      <EnlargedImageModal src={enlargedFlowchart} onClose={() => setEnlargedFlowchart(null)} />
     </>
   );
 }
@@ -421,7 +425,7 @@ function CompareModal({ nodes, onClose }) {
                           pdf
                         </a>
                       ) : field.isImage && model[field.key] ? (
-                        <img src={process.env.PUBLIC_URL + model[field.key]} alt={field.label} style={{ maxWidth: 140, maxHeight: 70 }} />
+                        <img src={process.env.PUBLIC_URL + "/" + model[field.key]} alt={field.label} style={{ maxWidth: 140, maxHeight: 70 }} />
                       ) : field.isLink && model[field.key] ? (
                         <a
                           href={model[field.href || field.key]}
@@ -598,13 +602,17 @@ function InfoHowToUseModal({ onClose }) {
   </td>
   <td style={{ ...td, width: "33%" }}>
     <ul style={{paddingLeft: 18, margin: 0, listStyleType: "disc"}}>
-      <li style={{marginBottom: 10}}><kbd style={kbd}>c</kbd> Toggle Compare</li>
-      <li style={{marginBottom: 10}}><kbd style={kbd}>r</kbd> Reset</li>
-      <li style={{marginBottom: 10}}><kbd style={kbd}>/</kbd> Focus search</li>
-      <li style={{marginBottom: 10}}><kbd style={kbd}>Esc</kbd> Close popups</li>
-      <li style={{marginBottom: 10}}><kbd style={kbd}>↑</kbd>/<kbd style={kbd}>↓</kbd> Navigate search</li>
-      <li style={{marginBottom: 10}}><kbd style={kbd}>Enter</kbd> Select search result</li>
-      <li style={{marginBottom: 0}}><span>Mouse Wheel / drag: Scroll timeline</span></li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>c</kbd> Toggle Comparison Mode</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>r</kbd> Reset View</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>/</kbd> Focus/Unfocus Search Bar</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>h</kbd> Hide/Unhide Sidebar Table</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>k</kbd> Show/Hide This Board</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>e</kbd> Enlarge/Close Flowchart</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>f</kbd> Focus Timeline Board</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>Esc</kbd> Close Popups/Modals</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>↑</kbd>/<kbd style={kbd}>↓</kbd> Navigate Search</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>Enter</kbd> Select Search Result</li>
+      <li style={{marginBottom: 0}}><span>Mouse Wheel / Drag: Scroll Timeline</span></li>
     </ul>
   </td>
 </tr>
@@ -695,7 +703,28 @@ export default function FlowChart() {
   const [showComparison, setShowComparison] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [enlargedFlowchart, setEnlargedFlowchart] = useState(null);
 
+
+  useEffect(() => {
+    function handleEscape(e) {
+      if (e.key === "Escape") {
+        // Priority: Enlarged flowchart
+        if (enlargedFlowchart) {
+          setEnlargedFlowchart(null);
+        } else if (openNode && !compareMode) {
+          setOpenNode(null);
+          setSelectedIds(new Set());
+        } else if (showComparison) {
+          setShowComparison(false);
+        } else if (showInfo) {
+          setShowInfo(false);
+        }
+      }
+    }
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [enlargedFlowchart, openNode, compareMode, showComparison, showInfo]);
 
   // vertical math
   const stripHeight = (BOARD_HEIGHT - TIMELINE_HEIGHT) / USE_CASES.length;
@@ -797,29 +826,51 @@ export default function FlowChart() {
   }, []);
 
   useEffect(() => {
-  const handleKeyDown = (e) => {
-    // Don't trigger if a text input is focused
-    const tag = document.activeElement.tagName.toLowerCase();
-    if (tag === "input" || tag === "textarea") return;
+    const handleKeyDown = (e) => {
+      // Uncomment below to debug what keys are being caught:
+      // console.log('KeyDown:', e.key, 'Tag:', document.activeElement.tagName);
 
-    if (e.key === "c" || e.key === "C") {
-      setCompareMode(m => !m);
-      setSelectedIds(new Set());
-      setOpenNode(null);
-      setShowComparison(false);
-    }
-    if (e.key === "r" || e.key === "R") {
-      resetView();
-    }
-    if (e.key === "/") {
-      // Focus search bar: add an id to your search input like id="search-bar"
-      const sb = document.getElementById("search-bar");
-      if (sb) { sb.focus(); e.preventDefault(); }
-    }
-  };
-  window.addEventListener("keydown", handleKeyDown);
-  return () => window.removeEventListener("keydown", handleKeyDown);
-}, []);
+      const tag = document.activeElement.tagName.toLowerCase();
+      // Don't trigger for input or textarea unless it's "/"
+      if ((tag === "input" || tag === "textarea") && e.key !== "/") return;
+
+      // Shortcuts
+      if (e.key === "c" || e.key === "C") {
+        setCompareMode(m => !m);
+        setSelectedIds(new Set());
+        setOpenNode(null);
+        setShowComparison(false);
+      }
+      if (e.key === "r" || e.key === "R") {
+        resetView();
+      }
+      if (e.key === "k" || e.key === "K") {
+        setShowInfo(v => !v);
+      }
+      if (e.key === "/") {
+        const sb = document.getElementById("search-bar");
+        if (sb) {
+          if (document.activeElement === sb) {
+            sb.blur();  // If already focused, blur (i.e., close)
+          } else {
+            e.preventDefault();
+            setTimeout(() => sb.focus(), 0); // Focus (i.e., open)
+          }
+        }
+      }
+      if (e.key === "h" || e.key === "H") {
+        setMinimized(m => !m);
+      }
+      if (e.key === "f" || e.key === "F") {
+        // Focus timeline board
+        if (boardScroller.current) boardScroller.current.focus();
+      }
+      // Add more as needed
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
 
 useEffect(() => {
   const scroller = boardScroller.current;
@@ -1250,6 +1301,14 @@ useEffect(() => {
             </select>
           </div>
         </div>
+
+        {enlargedFlowchart && (
+          <EnlargedImageModal
+            src={enlargedFlowchart}
+            onClose={() => setEnlargedFlowchart(null)}
+          />
+        )}
+
         {/* Compare button -- move here */}
           {compareMode && selectedIds.size >= 2 && !showComparison && (
             <div
@@ -1354,6 +1413,8 @@ useEffect(() => {
           setOpenNode(null);
           setSelectedIds(new Set()); // Deselect row when closing popup
         }}
+        setEnlargedFlowchart={setEnlargedFlowchart}
+        enlargedFlowchart={enlargedFlowchart}
       />
     )}
   </>
