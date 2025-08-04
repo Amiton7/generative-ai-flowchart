@@ -49,7 +49,7 @@ const FIELD_CONFIG = [
 
 
 // Info Card Table
-function ModelTable({ details, setEnlargedFlowchart }) {
+function ModelTable({ details, setEnlargedFlowchart, setShowDisclaimer }) {
   return (
     <table
       className="node-table"
@@ -138,9 +138,34 @@ function ModelTable({ details, setEnlargedFlowchart }) {
           </tr>
         ))}
       </tbody>
+      <tfoot>
+        <tr>
+          <td colSpan={2}>
+            <div style={{
+              fontSize: "11px",
+              color: "#b91c1c",
+              marginTop: 5,
+              textAlign: "left"
+            }}>
+              This table might contain misinformation.
+              <a
+                href="#"
+                onClick={e => {
+                  e.preventDefault();
+                  setShowDisclaimer(true);
+                }}
+                style={{color:"#b91c1c", textDecoration:"underline"}}
+              >
+                See disclaimer.
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
     </table>
   );
 }
+
 
 function EnlargedImageModal({ src, onClose }) {
   if (!src) return null;
@@ -177,7 +202,7 @@ function EnlargedImageModal({ src, onClose }) {
 // Info Popup (single)
 // Assuming ModelTable and EnlargedImageModal are in the same file or imported above
 
-function InfoPopup({ model, onClose, setEnlargedFlowchart, enlargedFlowchart}) {
+function InfoPopup({ model, onClose, setEnlargedFlowchart, enlargedFlowchart, setShowDisclaimer }) {
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === "e" || e.key === "E") {
@@ -248,7 +273,11 @@ function InfoPopup({ model, onClose, setEnlargedFlowchart, enlargedFlowchart}) {
           <h4 style={{ textAlign: "center", marginBottom: 10 }}>
             {model.model}
           </h4>
-          <ModelTable details={model} setEnlargedFlowchart={setEnlargedFlowchart} />
+          <ModelTable
+            details={model}
+            setEnlargedFlowchart={setEnlargedFlowchart}
+            setShowDisclaimer={setShowDisclaimer}
+          />
         </div>
       </div>
     </>
@@ -258,7 +287,7 @@ function InfoPopup({ model, onClose, setEnlargedFlowchart, enlargedFlowchart}) {
 
 // Comparison Modal
 // Comparison Modal
-function CompareModal({ nodes, onClose, setEnlargedFlowchart }) {
+function CompareModal({ nodes, onClose, setEnlargedFlowchart, setShowDisclaimer }) {
   // If no nodes, render nothing
   if (!nodes || !nodes.length) return null;
 
@@ -452,6 +481,30 @@ function CompareModal({ nodes, onClose, setEnlargedFlowchart }) {
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan={nodes.length + 1}>
+                  <div style={{
+                    fontSize: "11px",
+                    color: "#b91c1c",
+                    marginTop: 5,
+                    textAlign: "left"
+                  }}>
+                    This table might contain misinformation.
+                    <a
+                      href="#"
+                      onClick={e => {
+                        e.preventDefault();
+                        setShowDisclaimer(true);
+                      }}
+                      style={{color:"#b91c1c", textDecoration:"underline"}}
+                    >
+                      See disclaimer.
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
@@ -468,6 +521,57 @@ for (const uc of USE_CASES) {
     .filter(m => m.primaryUseCase === uc)
     .sort((a, b) => (Number(a.citations) || 0) - (Number(b.citations) || 0));
   useCaseSortedNodes[uc] = sorted;
+}
+
+
+function DisclaimerModal({ onClose }) {
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 0, left: 0, width: "100vw", height: "100vh",
+        background: "rgba(0,0,0,0.25)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        zIndex: 21000
+      }}
+      onClick={onClose}
+    >
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: 14,
+          maxWidth: 440,
+          width: "96vw",
+          padding: "28px 24px 22px 24px",
+          boxShadow: "0 10px 48px #0003",
+          border: "1.5px solid #fca5a5",
+          position: "relative"
+        }}
+        onClick={e => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute", top: 8, right: 8,
+            background: "#ef4444", color: "#fff",
+            border: "none", borderRadius: "50%",
+            width: 25, height: 25, fontSize: 18,
+            fontWeight: 700, cursor: "pointer", zIndex: 21100,
+            display: "flex", alignItems: "center", justifyContent: "center"
+          }}
+          aria-label="Close"
+        >&times;</button>
+        <h3 style={{margin: "0 0 9px 0", fontWeight: 700, color: "#b91c1c", fontSize: "1.1rem", textAlign: "center"}}>Disclaimer</h3>
+        <div style={{
+          color: "#991b1b", fontSize: 14, lineHeight: 1.55, background: "#fef2f2",
+          borderRadius: 7, padding: "10px 12px", border: "1px solid #fee2e2"
+        }}>
+          All summaries and data on this site are generated or curated with the assistance of AI tools (ChatGPT 4.1, Perplexity AI). While best efforts were made to ensure accuracy, errors or omissions may exist.<br/><br/>
+          <b>The author(s) of this GitHub page are not responsible for any inaccuracies or interpretations resulting from use of this data. Always consult the referred original papers for authoritative information.</b>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 
@@ -599,22 +703,23 @@ function InfoHowToUseModal({ onClose }) {
         For info of a single model, you can directly select the node without entering into comparison mode.
       </li>
       <li style={{marginBottom: 10}}>
-        Feel free to drop a suggestion or feedback anytime!
+        Feel free to drop a suggestion or feedback anytime in the suggestion box at the bottom of the page!
       </li>
     </ul>
   </td>
-  <td style={{ ...td, width: "33%" }}>
+  <td style={{ ...td, width: "35%" }}>
     <ul style={{paddingLeft: 18, margin: 0, listStyleType: "disc"}}>
-      <li style={{marginBottom: 10}}><kbd style={kbd}>c</kbd> Toggle Comparison Mode</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>c</kbd> Comparison Mode</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>b</kbd> Compare Button</li>
       <li style={{marginBottom: 10}}><kbd style={kbd}>r</kbd> Reset View</li>
-      <li style={{marginBottom: 10}}><kbd style={kbd}>/</kbd> Focus/Unfocus Search Bar</li>
-      <li style={{marginBottom: 10}}><kbd style={kbd}>h</kbd> Hide/Unhide Sidebar Table</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>/</kbd> Search Bar</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>h</kbd> Hide/Unhide Sidebar</li>
       <li style={{marginBottom: 10}}><kbd style={kbd}>k</kbd> Show/Hide This Board</li>
-      <li style={{marginBottom: 10}}><kbd style={kbd}>e</kbd> Enlarge/Close Flowchart</li>
-      <li style={{marginBottom: 10}}><kbd style={kbd}>f</kbd> Focus Timeline Board</li>
-      <li style={{marginBottom: 10}}><kbd style={kbd}>Esc</kbd> Close Popups/Modals</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>e</kbd> Enlarge Flowchart</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>f</kbd> Select Timeline Board</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>Esc</kbd> Close Popups</li>
       <li style={{marginBottom: 10}}><kbd style={kbd}>↑</kbd>/<kbd style={kbd}>↓</kbd> Navigate Search</li>
-      <li style={{marginBottom: 10}}><kbd style={kbd}>Enter</kbd> Select Search Result</li>
+      <li style={{marginBottom: 10}}><kbd style={kbd}>Enter</kbd> Select Search </li>
       <li style={{marginBottom: 0}}><span>Mouse Wheel / Drag: Scroll Timeline</span></li>
     </ul>
   </td>
@@ -643,15 +748,14 @@ const MODEL_TYPE_LEGEND = [
 function ModelTypeLegend({ style = {} }) {
   return (
     <div
+      className="legend"
       style={{
-        position: "fixed",           // <--- FIXED instead of absolute!
-        left: 110,                    // Distance from window left edge
-        top: 191,                     // Distance from window top edge
-        zIndex: 2022,                // Above most content, below modals
+        // Only put universal styles here.
+        position: "fixed",
+        zIndex: 2022,
         background: "rgba(255,255,255,0.67)",
         border: "1px solid #e5e7eb",
         borderRadius: 7,
-        // boxShadow: "0 2px 8px #0001",
         padding: "4px 9px",
         minWidth: 0,
         fontFamily: "Inter, sans-serif",
@@ -662,6 +766,7 @@ function ModelTypeLegend({ style = {} }) {
         gap: 5,
         pointerEvents: "none",
         ...style,
+        // REMOVE left and top from here!
       }}
     >
       {MODEL_TYPE_LEGEND.map((type) => (
@@ -707,7 +812,7 @@ export default function FlowChart() {
   const [minimized, setMinimized] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [enlargedFlowchart, setEnlargedFlowchart] = useState(null);
-
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
 
   useEffect(() => {
     function handleEscape(e) {
@@ -781,6 +886,24 @@ export default function FlowChart() {
     ) - NODE_HEIGHT / 2;
   }
 
+  
+  function centerTimelineOnYear(year = 2017) {
+    if (!boardScroller.current) return;
+    const fakeModel = { year: year, exactDate: `${year}-06-01`, primaryUseCase: USE_CASES[0] };
+    const nodeX = getNodeX(fakeModel);
+    const nodeWidth = NODE_HEIGHT;
+    const container = boardScroller.current;
+    const containerWidth = container.offsetWidth;
+    const scrollTo = Math.max(
+      0,
+      nodeX + nodeWidth / 2 - containerWidth / 2
+    );
+    container.scrollTo({
+      left: scrollTo,
+      behavior: "smooth"
+    });
+  }
+
   const scrollToModelById = (id) => {
     const m = models.find(x => x.id === id);
     if (!m || !boardScroller.current) return;
@@ -813,11 +936,15 @@ export default function FlowChart() {
     }
   };
 
+  
+
+
   const resetView = () => {
     setCompareMode(false);
     setSelectedIds(new Set());
     setOpenNode(null);
     setShowComparison(false);
+    setTimeout(() => centerTimelineOnYear(2017), 100);
   };
 
   const handleCompare = () => setShowComparison(true);
@@ -827,6 +954,16 @@ export default function FlowChart() {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => centerTimelineOnYear(2017), 100); // 2017/2018
+  }, []);
+
+  useEffect(() => {
+    // Hide sidebar on small screens automatically
+    if (window.innerWidth < 700 && !minimized) setMinimized(true);
+  }, []);
+
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -988,119 +1125,161 @@ useEffect(() => {
   return (
   <>
     <h1
-  style={{
-    marginLeft: LABEL_COL_WIDTH,
-    marginTop: 30,
-    marginBottom: 10,
-    fontFamily: "Inter, sans-serif",
-    fontSize: "2.5rem",
-    fontWeight: 700,
-    color: "#0f172a"
-  }}
->
-  Foundational Generative Models
-</h1>
-<div
-  style={{
-    marginLeft: LABEL_COL_WIDTH,   // <-- Change is here
-    fontSize: "0.8rem",
-    color: "#64748b",
-    marginBottom: 32,
-    fontWeight: 400,
-    display: "flex",
-    alignItems: "center",
-    gap: 18
-  }}
->
-  <span>
-    Date: Aug 1, 2025 &nbsp; | &nbsp;Author:{" "}
-    <a
-      href="https://github.com/Amiton7"
-      target="_blank"
-      rel="noopener noreferrer"
       style={{
-        color: "#64748b",
-        textDecoration: "none",
-        fontWeight: 400,
-        fontSize: "0.8rem",
+        marginLeft: LABEL_COL_WIDTH,
+        marginTop: 30,
+        marginBottom: 0,
+        fontFamily: "Inter, sans-serif",
+        fontSize: "2.5rem",
+        fontWeight: 700,
+        color: "#0f172a",
+        lineHeight: 1.13
       }}
-      tabIndex={0}
-      title="View GitHub profile"
     >
-      Amit Bendkhale
-    </a> 
-    &nbsp; | &nbsp; AI Tools used: ChatGPT 4.1, Perplexity AI
-  </span>
+      Foundational Generative Models
+    </h1>
+    <div
+      style={{
+        marginLeft: LABEL_COL_WIDTH,
+        marginBottom: 16,
+        fontSize: "1.15rem",
+        fontWeight: 500,
+        color: "#334155",    // slate-800 or similar, less bold than title
+        letterSpacing: "0.01em"
+      }}
+    >
+      A Visual Comparison
+    </div>
+
+    <div
+      style={{
+        marginLeft: LABEL_COL_WIDTH,   // <-- Change is here
+        fontSize: "0.8rem",
+        color: "#64748b",
+        marginBottom: 32,
+        fontWeight: 400,
+        display: "flex",
+        alignItems: "center",
+        gap: 18
+      }}
+    >
+      <span>
+        Date: Aug 1, 2025 &nbsp; | &nbsp;Author:{" "}
+        <a
+          href="https://github.com/Amiton7"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: "#64748b",
+            textDecoration: "none",
+            fontWeight: 400,
+            fontSize: "0.8rem",
+          }}
+          tabIndex={0}
+          title="View GitHub profile"
+        >
+          Amit Bendkhale
+        </a> 
+        {/* &nbsp; | &nbsp; AI Tools used: ChatGPT 4.1, Perplexity AI */}
+      </span>
+      <button
+        style={{
+          marginLeft: 10,
+          background: "#e0e7ff",
+          color: "#262d38",
+          border: "1px solid #a5b4fc",
+          borderRadius: 7,
+          fontWeight: 600,
+          fontSize: 13.5,
+          padding: "4px 13px",
+          cursor: "pointer",
+          boxShadow: "none"
+        }}
+        onClick={() => setShowInfo(true)}
+        tabIndex={0}
+        title="Learn why and how to use this timeline"
+      >
+        Why / How to Use?
+      </button>
+    </div>
+
+    {showDisclaimer && <DisclaimerModal onClose={() => setShowDisclaimer(false)} />}
+
+    <div
+  style={{
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between", // The magic line!
+    margin: `6px ${LABEL_COL_WIDTH - 25}px 8px ${LABEL_COL_WIDTH}px`,
+    width: `calc(100vw - ${LABEL_COL_WIDTH + (minimized ? 24 : 240)}px)`,
+    maxWidth: "100vw",
+  }}
+>
+  {/* Left group: Comparison Mode + Compare */}
+  <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 14 }}>
+    <button
+      onClick={() => {
+        setCompareMode((m) => !m);
+        setSelectedIds(new Set());
+        setOpenNode(null);
+        setShowComparison(false);
+      }}
+      style={{
+        background: compareMode ? "#0ea5e9" : "#fff",
+        color: compareMode ? "#fff" : "#0f172a",
+        border: "1px solid #0ea5e9",
+        borderRadius: 6,
+        fontSize: 15,
+        fontWeight: 600,
+        padding: "5px 18px 5px 15px",
+        minWidth: 104,
+        letterSpacing: "0.02em"
+      }}
+    >
+      Comparison Mode
+    </button>
+    {compareMode && selectedIds.size >= 2 && !showComparison && (
+      <button
+        style={{
+          background: "#22c55e",
+          color: "#fff",
+          border: "1px solid #22c55e",
+          borderRadius: 6,
+          padding: "6px 15px",
+          fontSize: 15,
+          minWidth: 90,
+          boxShadow: "none",
+          fontWeight: 600,
+          transition: "background 0.2s",
+        }}
+        onClick={handleCompare}
+      >
+        Compare ({selectedIds.size})
+      </button>
+    )}
+  </div>
+  {/* Right: Reset button always at far right */}
   <button
+    onClick={resetView}
     style={{
-      marginLeft: 10,
-      background: "#e0e7ff",
-      color: "#262d38",
-      border: "1px solid #a5b4fc",
-      borderRadius: 7,
-      fontWeight: 600,
-      fontSize: 13.5,
-      padding: "4px 13px",
-      cursor: "pointer",
-      boxShadow: "none"
+      background: "#fff",
+      color: "red",
+      border: "1px solid red",
+      borderRadius: 5,
+      fontSize: 12,
+      padding: "4px 10px",
+      minWidth: 52,
+      fontWeight: 500,
+      letterSpacing: "0.01em",
+      boxShadow: "none",
     }}
-    onClick={() => setShowInfo(true)}
-    tabIndex={0}
-    title="Learn why and how to use this timeline"
   >
-    Why / How to Use?
+    Reset
   </button>
 </div>
 
 
-    {/* Control bar */}
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        margin: `6px ${LABEL_COL_WIDTH - 25}px 8px ${LABEL_COL_WIDTH}px`
-      }}
-    >
-      <button
-        onClick={() => {
-          setCompareMode((m) => !m);
-          setSelectedIds(new Set());
-          setOpenNode(null);
-          setShowComparison(false);
-        }}
-        style={{
-          background: compareMode ? "#0ea5e9" : "#fff",
-          color: compareMode ? "#fff" : "#0f172a",
-          border: "1px solid #0ea5e9",
-          borderRadius: 6,
-          fontSize: 15,
-          fontWeight: 600,
-          padding: "5px 18px 5px 15px",
-          minWidth: 104,
-          letterSpacing: "0.02em"
-        }}
-      >
-        {compareMode ? "Comparison Mode" : "Comparison Mode"}
-      </button>
-      <button
-        onClick={resetView}
-        style={{
-          background: "#fff",
-          color: "red",
-          border: "1px solid red",
-          borderRadius: 5,
-          fontSize: 12,
-          padding: "4px 10px",
-          minWidth: 52,
-          fontWeight: 500,
-          letterSpacing: "0.01em"
-        }}
-      >
-        Reset
-      </button>
-    </div>
 
     {/* ========== Main chart area with sidebar (ALL IN ONE FLEX ROW) ========== */}
     <div
@@ -1132,7 +1311,7 @@ useEffect(() => {
       {/* Scrollable board/chart */}
       <div
         ref={boardScroller}
-        className="timeline-scrollbar"
+        className="timeline-scrollbar main-chart-area"
         style={{
           border: "none",
           borderRadius: 0,
@@ -1318,42 +1497,6 @@ useEffect(() => {
             onClose={() => setEnlargedFlowchart(null)}
           />
         )}
-
-        {/* Compare button -- move here */}
-          {compareMode && selectedIds.size >= 2 && !showComparison && (
-            <div
-              style={{
-                width: `calc(100vw - ${LABEL_COL_WIDTH + (minimized ? 24 : 320)}px)`,
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                position: "absolute",
-                left: LABEL_COL_WIDTH,
-                top: BOARD_HEIGHT + 3, // just below timeline
-                zIndex: 40,
-                background: "transparent",
-                pointerEvents: "auto"
-              }}
-            >
-              <button
-                className="compare-btn"
-                style={{
-                  background: "#0ea5e9",
-                  color: "#fff",
-                  border: "1px solid #0ea5e9",
-                  borderRadius: 6,
-                  padding: "6px 15px",
-                  fontSize: 15,
-                  marginBottom: 0,
-                  minWidth: 90,
-                  boxShadow: "none"
-                }}
-                onClick={handleCompare}
-              >
-                Compare ({selectedIds.size})
-              </button>
-            </div>
-          )}
           
       </div>
       {/* PLACE THE LEGEND COMPONENT HERE: */}
@@ -1416,7 +1559,8 @@ useEffect(() => {
       <CompareModal
         nodes={models.filter(m => selectedIds.has(m.id))}
         onClose={() => setShowComparison(false)}
-        setEnlargedFlowchart={setEnlargedFlowchart}    // <--- ADD THIS LINE
+        setEnlargedFlowchart={setEnlargedFlowchart}
+        setShowDisclaimer={setShowDisclaimer}
       />
     )}
     {showInfo && <InfoHowToUseModal onClose={() => setShowInfo(false)} />}
@@ -1429,6 +1573,7 @@ useEffect(() => {
         }}
         setEnlargedFlowchart={setEnlargedFlowchart}
         enlargedFlowchart={enlargedFlowchart}
+        setShowDisclaimer={setShowDisclaimer}
       />
     )}
   </>
