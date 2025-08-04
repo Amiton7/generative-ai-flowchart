@@ -1,4 +1,4 @@
-# Visual Comparison of Foundational Gen AI Models
+# Foundational Generative Models: A Visual Comparison
 
 This is a comprehensive visualization and comparison of Foundational Generative AI models. 
 
